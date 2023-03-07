@@ -1,7 +1,9 @@
+import 'package:bible_app/features/bible/bloc/bible_bloc.dart';
 import 'package:bible_app/features/bible/ui/screens/bible_screen.dart';
 import 'package:bible_app/features/bible/ui/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const BibleApp());
@@ -15,10 +17,15 @@ final GoRouter _router = GoRouter(
       builder: (BuildContext context, GoRouterState state) =>
           const HomeScreen(),
     ),
+    //dependancy injection
     GoRoute(
       path: '/bibleScreen',
-      builder: (BuildContext context, GoRouterState state) =>
-          const BibleScreen(),
+      builder: (BuildContext context, GoRouterState state) {
+        return Provider(
+          create: (_) => BibleBloc(),
+          builder: (context, child) => const BibleScreen(),
+        );
+      },
     ),
   ],
 );
