@@ -1,18 +1,18 @@
 // class to de-serialize the json data that comes from API calls
 class BibleModel {
-  String id;
+  String? id;
   String dblId;
   String name;
 
   BibleModel({
-    this.id = '',
+    this.id,
     this.dblId = '',
     this.name = '',
   });
 
   factory BibleModel.fromJson(Map<String, dynamic> json) => BibleModel(
         id: json['id'],
-        dblId: json['dlbId'],
+        dblId: json['dblId'],
         name: json['name'],
       );
 
