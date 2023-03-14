@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bible_app/features/bible/bloc/bible_bloc.dart';
 import 'package:bible_app/features/bible/bloc/bible_state.dart';
 import 'package:bible_app/features/bible/ui/helpers/text_helper.dart';
@@ -100,23 +98,25 @@ class BibleScreen extends StatelessWidget {
                     )
                   ],
                 ),
-                Column(children: [
-                  Container(
-                    color: Color.fromRGBO(238, 238, 238, 1),
-                    child: Column(
-                      children: [
-                        ...bibleState!.bibles.map(
-                          (e) => ListTile(
-                            title: Text(
-                              e.name.toString(),
+                Column(
+                  children: [
+                    Container(
+                      color: const Color.fromRGBO(238, 238, 238, 1),
+                      child: Column(
+                        children: [
+                          ...bibleState!.bibles.map(
+                            (e) => ListTile(
+                              title: Text(
+                                e.name.toString(),
+                              ),
+                              trailing: const Icon(Icons.chevron_left),
                             ),
-                            trailing: const Icon(Icons.chevron_left),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ]),
+                  ],
+                ),
               ],
             ),
           ),

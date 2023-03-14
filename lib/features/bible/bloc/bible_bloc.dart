@@ -3,14 +3,11 @@ import 'dart:developer';
 
 import 'package:bible_app/features/bible/bloc/bible_state.dart';
 import 'package:bible_app/features/bible/bloc/bloc.dart';
-import 'package:bible_app/features/bible/models/bible_model.dart';
 import 'package:bible_app/features/bible/service/api.dart';
 import 'package:bible_app/features/bible/ui/utils/service_locator.dart';
 
 class BibleBloc implements Bloc {
   final _bibleStreamController = StreamController<BibleState>();
-  late final BibleState _bibleState;
-  BibleModel bible = BibleModel();
 
   //getter
   Stream<BibleState> get bibleStateStream => _bibleStreamController.stream;
