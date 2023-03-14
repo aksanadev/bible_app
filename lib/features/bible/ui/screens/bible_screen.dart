@@ -2,7 +2,9 @@ import 'dart:developer';
 
 import 'package:bible_app/features/bible/bloc/bible_bloc.dart';
 import 'package:bible_app/features/bible/bloc/bible_state.dart';
+import 'package:bible_app/features/bible/ui/helpers/text_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class BibleScreen extends StatelessWidget {
@@ -18,6 +20,17 @@ class BibleScreen extends StatelessWidget {
         final bibleState = snapshot.data;
         if (snapshot.hasData) {
           return Scaffold(
+            appBar: AppBar(
+              title: const Text('Bible App'),
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    _showBottomSheet(context, bibleState);
+                  },
+                  icon: const Icon(Icons.book),
+                )
+              ],
+            ),
             body: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Center(
@@ -26,15 +39,9 @@ class BibleScreen extends StatelessWidget {
                       parent: BouncingScrollPhysics()),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text('Bible Screen'),
-                      const SizedBox(height: 20),
-                      // listed data
-                      ...bibleState!.bibles.map(
-                        (e) => Card(
-                          child: Text('Bible: ${e.name.toString()}'),
-                        ),
-                      ),
+                    children: const [
+                      Text('Bible Screen'),
+                      SizedBox(height: 20),
                     ],
                   ),
                 ),
@@ -42,33 +49,78 @@ class BibleScreen extends StatelessWidget {
             ),
           );
         } else {
-          return Scaffold(
+          return const Scaffold(
             body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('Bible Screen'),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () async {
-                      try {
-                        await bloc.getAllBibles();
-                        log('got data!');
-                      } catch (e) {
-                        log('failed to get data');
-                      }
-                    },
-                    child: const Text('Get All Bibles'), // initialize bibles
-                  ),
-                  // ...bibleState!.bibles.map((e) => Card(
-                  //       child: Text('Bible: ${e.name.toString()}'),
-                  //     )),
-                  // OMIT THIS^
-                ],
-              ),
+              child: CircularProgressIndicator(),
             ),
           );
         }
+      },
+    );
+  }
+
+  _showBottomSheet(BuildContext context, bibleState) {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (context) {
+        return FractionallySizedBox(
+          heightFactor: .9,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        context.pop();
+                      },
+                      child: Text(
+                        'Done',
+                        style: defaultStyle,
+                      ),
+                    ),
+                    Column(
+                      children: [
+                        Text(
+                          'Versions',
+                          style: defaultStyle,
+                        ),
+                        Text(
+                          '2,917 Versions in 1,942 Languages',
+                          style: smallText,
+                        )
+                      ],
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.search),
+                      color: Colors.black,
+                    )
+                  ],
+                ),
+                Column(children: [
+                  Container(
+                    color: Color.fromRGBO(238, 238, 238, 1),
+                    child: Column(
+                      children: [
+                        ...bibleState!.bibles.map(
+                          (e) => ListTile(
+                            title: Text(
+                              e.name.toString(),
+                            ),
+                            trailing: const Icon(Icons.chevron_left),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ]),
+              ],
+            ),
+          ),
+        );
       },
     );
   }

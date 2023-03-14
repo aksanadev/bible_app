@@ -17,10 +17,7 @@ class BibleBloc implements Bloc {
 
   //initializes when bloc gets injected (upon go_route)
   BibleBloc() {
-    final firstBible = BibleModel(id: '234', dblId: '234', name: 'NKJV');
-    List<BibleModel> allBibles = List.empty(growable: true);
-    allBibles.add(firstBible);
-    _bibleState = BibleState(bibles: allBibles);
+    getAllBibles();
   }
 
   Future<void> getAllBibles() async {
@@ -28,8 +25,8 @@ class BibleBloc implements Bloc {
       final bibles = await ServiceLocator()
           .bibleRepository
           .getAllBibles(method: RestMethod.get, path: '');
-      final allBibles = _bibleState.copyWith(bibles: bibles);
-      _bibleStreamController.add(allBibles);
+      _bibleStreamController
+          .add(BibleState(bibles: bibles).copyWith(bibles: bibles));
       log('added bibles');
     } catch (e) {
       log('Could not get Bibles\n\n${e.toString()}');

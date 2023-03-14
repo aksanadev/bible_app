@@ -2,7 +2,7 @@ import 'package:bible_app/features/bible/models/bible_model.dart';
 
 // class represents the current condition that a widget is in
 class BibleState {
-  List<BibleModel> bibles;
+  List<BibleModel>? bibles;
   BibleModel? bible;
   String id;
   String dblId;
