@@ -34,7 +34,8 @@ class BibleScreen extends StatelessWidget {
               child: Center(
                 child: SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(
-                      parent: BouncingScrollPhysics()),
+                    parent: BouncingScrollPhysics(),
+                  ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
@@ -65,6 +66,8 @@ class BibleScreen extends StatelessWidget {
         return FractionallySizedBox(
           heightFactor: .9,
           child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(
+                parent: BouncingScrollPhysics()),
             child: Column(
               children: [
                 Row(
