@@ -19,6 +19,7 @@ class BibleScreen extends StatelessWidget {
         if (snapshot.hasData) {
           return Scaffold(
             appBar: AppBar(
+              automaticallyImplyLeading: false,
               title: const Text('Bible App'),
               actions: [
                 IconButton(
@@ -65,63 +66,63 @@ class BibleScreen extends StatelessWidget {
       builder: (context) {
         return FractionallySizedBox(
           heightFactor: .9,
-          child: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(
-                parent: BouncingScrollPhysics()),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        context.pop();
-                      },
-                      child: Text(
-                        'Done',
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      context.pop();
+                    },
+                    child: Text(
+                      'Done',
+                      style: defaultStyle,
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      Text(
+                        'Versions',
                         style: defaultStyle,
                       ),
-                    ),
-                    Column(
-                      children: [
-                        Text(
-                          'Versions',
-                          style: defaultStyle,
-                        ),
-                        Text(
-                          '2,917 Versions in 1,942 Languages',
-                          style: smallText,
-                        )
-                      ],
-                    ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.search),
-                      color: Colors.black,
-                    )
-                  ],
-                ),
-                Column(
-                  children: [
-                    Container(
-                      color: const Color.fromRGBO(238, 238, 238, 1),
-                      child: Column(
-                        children: [
-                          ...bibleState!.bibles.map(
-                            (e) => ListTile(
-                              title: Text(
-                                e.name.toString(),
+                      Text(
+                        '2,917 Versions in 1,942 Languages',
+                        style: smallText,
+                      )
+                    ],
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.search),
+                    color: Colors.black,
+                  )
+                ],
+              ),
+              Flexible(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Container(
+                        color: const Color.fromRGBO(238, 238, 238, 1),
+                        child: Column(
+                          children: [
+                            ...bibleState!.bibles.map(
+                              (e) => ListTile(
+                                title: Text(
+                                  e.name.toString(),
+                                ),
+                                trailing: const Icon(Icons.chevron_left),
                               ),
-                              trailing: const Icon(Icons.chevron_left),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },

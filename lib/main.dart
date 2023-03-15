@@ -13,21 +13,22 @@ void main() {
 final GoRouter _router = GoRouter(
   routes: <RouteBase>[
     GoRoute(
-        path: '/',
-        builder: (BuildContext context, GoRouterState state) =>
-            const HomeScreen(),
-        routes: <RouteBase>[
-          //dependancy injection
-          GoRoute(
-            path: 'bibleScreen',
-            builder: (BuildContext context, GoRouterState state) {
-              return Provider(
-                create: (_) => BibleBloc(),
-                builder: (context, child) => const BibleScreen(),
-              );
-            },
-          ),
-        ]),
+      path: '/',
+      builder: (BuildContext context, GoRouterState state) =>
+          const HomeScreen(),
+      routes: <RouteBase>[
+        //dependancy injection
+        GoRoute(
+          path: 'bibleScreen',
+          builder: (BuildContext context, GoRouterState state) {
+            return Provider(
+              create: (_) => BibleBloc(),
+              builder: (context, child) => const BibleScreen(),
+            );
+          },
+        ),
+      ],
+    ),
   ],
 );
 

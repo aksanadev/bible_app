@@ -13,10 +13,11 @@ class HomeScreen extends StatelessWidget {
           children: [
             const Text('Home'),
             OutlinedButton(
-                onPressed: () {
-                  context.go('/bibleScreen');
-                },
-                child: const Text('Bible Screen'))
+              onPressed: () {
+                context.go('/bibleScreen');
+              },
+              child: const Text('Bible Screen'),
+            )
           ],
         ),
       ),
