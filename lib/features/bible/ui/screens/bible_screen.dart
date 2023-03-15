@@ -77,7 +77,7 @@ class BibleScreen extends StatelessWidget {
                     },
                     child: Text(
                       'Done',
-                      style: defaultStyle,
+                      style: textButton,
                     ),
                   ),
                   Column(
@@ -101,16 +101,17 @@ class BibleScreen extends StatelessWidget {
               ),
               Flexible(
                 child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                   child: Column(
                     children: [
-                      Container(
-                        color: const Color.fromRGBO(238, 238, 238, 1),
+                      SizedBox(
                         child: Column(
                           children: [
                             ...bibleState!.bibles.map(
                               (e) => ListTile(
                                 title: Text(
                                   e.name.toString(),
+                                  style: defaultStyle,
                                 ),
                                 trailing: const Icon(Icons.chevron_left),
                               ),

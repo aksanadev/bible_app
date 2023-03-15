@@ -8,7 +8,13 @@ TextStyle get smallText {
 }
 
 TextStyle get defaultStyle {
+  return const TextStyle(color: Colors.black54, fontSize: 13);
+}
+
+TextStyle get textButton {
   return const TextStyle(
     color: Colors.black54,
+    fontSize: 13,
+    fontWeight: FontWeight.bold,
   );
 }
