@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 
 class RestAPI {
@@ -6,6 +8,7 @@ class RestAPI {
   final Dio _dio;
 
   RestAPI({
+    // this.baseUrl = 'https://api.scripture.api.bible/v1/bibles',
     this.baseUrl = 'https://api.scripture.api.bible/v1/bibles',
     this.apiKey = 'ca215608bd0932213412999f3acbdd87',
   }) : _dio = Dio();
@@ -18,7 +21,8 @@ class RestAPI {
     switch (method) {
       case RestMethod.get:
         _dio.options.headers['api-key'] = apiKey;
-        response = await _dio.get(baseUrl + path);
+        response = await _dio.get('$baseUrl$path');
+        log(response.toString());
         break;
       case RestMethod.post:
         break;

@@ -1,8 +1,6 @@
 import 'package:bible_app/features/bible/bloc/bible_bloc.dart';
 import 'package:bible_app/features/bible/bloc/bible_state.dart';
-import 'package:bible_app/features/bible/ui/helpers/text_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:bible_app/features/bible/ui/widgets/bottom_sheet.dart';
 
