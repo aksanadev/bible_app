@@ -1,9 +1,9 @@
 import 'package:bible_app/features/bible/models/bible_model.dart';
 
-class BibleBook extends BibleModel {
+class BibleBookModel extends BibleModel {
   String? chapterId;
 
-  BibleBook({
+  BibleBookModel({
     name,
     required this.chapterId,
   }) : super(id: chapterId);
