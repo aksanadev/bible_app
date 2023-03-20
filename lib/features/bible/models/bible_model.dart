@@ -1,7 +1,7 @@
 // class to de-serialize the json data that comes from API calls
 class BibleModel {
-  String? id;
-  String? name;
+  String id;
+  String name;
 
   BibleModel({
     this.id = '',

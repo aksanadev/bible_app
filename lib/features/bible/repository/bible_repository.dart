@@ -9,6 +9,25 @@ class BibleRepository {
     _restAPI = restAPI ?? RestAPI();
   }
 
+  Future<BibleModel?> getBible({
+    required RestMethod method,
+    required String path,
+  }) async {
+    try {
+      final response = await _restAPI.request(method: method, path: path);
+      final data = response.data.data['data'];
+      if (response.statusCode == 200) {
+        final result = BibleModel.fromJson(data);
+        return result;
+      } else {
+        log('Cannot reach path: $path');
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+    return null;
+  }
+
   Future<List<BibleModel>?> getAllBibles({
     required RestMethod method,
     required String path,
