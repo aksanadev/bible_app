@@ -19,25 +19,28 @@ class BibleBloc implements Bloc {
 
   //initializes when bloc gets injected (upon go_route)
   BibleBloc() {
-    getAllBibles();
-    // getBooksOfTheBible();
-    // getBook();
+    getAllVersions();
   }
 
-  Future<void> getAllBibles() async {
+  Future<void> getAllVersions() async {
     try {
-      final bibles =
-          await bibleRepo.getAllBibles(method: RestMethod.get, path: '');
-      _bibleStreamController.add(BibleState(
-        version: VersionModel(bibleId: 'de4e12af7f28f599-01'),
-        book: BookModel(
-          bibleId: 'de4e12af7f28f599-01',
-          
-        ),
-      ).copyWith(bibles: bibles));
+      final bibleVersions =
+          await bibleRepo.getAllVersions(method: RestMethod.get, path: '');
+      _bibleStreamController.add(BibleState(bibleVersions: bibleVersions));
       log('added bibles');
     } catch (e) {
       log('Could not get Bibles\n\n${e.toString()}');
+    }
+  }
+
+  Future<void> getVersion(String bibleId) async {
+    try {
+      final bibleVersion = await bibleRepo.getVersion(
+          method: RestMethod.get, path: '/$bibleId/books');
+      _bibleStreamController
+          .add(BibleState().copyWith(bibleVersion: bibleVersion));
+    } catch (e) {
+      log('Could not get the Book of that Bible\n\n${e.toString()}');
     }
   }
 
@@ -53,25 +56,15 @@ class BibleBloc implements Bloc {
   //   }
   // }
 
-  Future<void> getBooksOfTheBible() async {
-    try {
-      final books = await bibleRepo.getAllBibles(
-          method: RestMethod.get, path: '/de4e12af7f28f599-01/books');
-      _bibleStreamController.add(BibleState(bibles: books));
-    } catch (e) {
-      log('Could not get the Book of that Bible\n\n${e.toString()}');
-    }
-  }
-
-  Future<void> getBook() async {
-    try {
-      final books = await bibleRepo.getBible(
-          method: RestMethod.get, path: '/de4e12af7f28f599-01');
-      // _bibleStreamController.add(BibleState(bibles: books));
-    } catch (e) {
-      log('Could not get the Book of that Bible\n\n${e.toString()}');
-    }
-  }
+  // Future<void> getBooksOfTheBible() async {
+  //   try {
+  //     final books = await bibleRepo.getAllBibles(
+  //         method: RestMethod.get, path: '/de4e12af7f28f599-01/books');
+  //     _bibleStreamController.add(BibleState(bibles: books));
+  //   } catch (e) {
+  //     log('Could not get the Book of that Bible\n\n${e.toString()}');
+  //   }
+  // }
 
   @override
   void dispose() {

@@ -1,12 +1,19 @@
+import 'package:bible_app/features/bible/bloc/bible_bloc.dart';
+import 'package:bible_app/features/bible/bloc/bible_state.dart';
 import 'package:bible_app/features/bible/ui/helpers/text_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
-showBibleBottomSheet(BuildContext context, bibleState) {
+showBibleBottomSheet(
+  BuildContext context,
+  BibleState bibleState,
+) {
   return showModalBottomSheet(
     isScrollControlled: true,
     context: context,
     builder: (context) {
+      final bloc = Provider.of<BibleBloc>(context, listen: false);
       return FractionallySizedBox(
         heightFactor: .9,
         child: Column(
@@ -51,15 +58,21 @@ showBibleBottomSheet(BuildContext context, bibleState) {
                     SizedBox(
                       child: Column(
                         children: [
-                          ...bibleState!.bibles.map(
+                          ...bibleState.bibleVersions!.map(
                             (e) => ExpansionTile(
-                              title: Text(
-                                e.id.toString(),
-                                style: defaultStyle,
+                              title: GestureDetector(
+                                onTap: () {
+                                  bloc.getVersion(e.bibleId);
+                                },
+                                child: Text(
+                                  e.bibleVersion.toString(),
+                                  style: defaultStyle,
+                                ),
                               ),
                               trailing: const Icon(Icons.chevron_left),
                               children: [
-                                Text(bibleState.bibles.length.toString()),
+                                Text(bibleState.bibleVersions!.length
+                                    .toString()),
                               ],
                             ),
                           ),

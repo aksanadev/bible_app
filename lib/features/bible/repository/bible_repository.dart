@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:bible_app/features/bible/models/bible/version_model.dart';
 import 'package:bible_app/features/bible/models/bible_model.dart';
 import 'package:bible_app/features/bible/service/api.dart';
 
@@ -9,15 +10,16 @@ class BibleRepository {
     _restAPI = restAPI ?? RestAPI();
   }
 
-  Future<BibleModel?> getBible({
+  Future<List<VersionModel>?> getAllVersions({
     required RestMethod method,
     required String path,
   }) async {
     try {
       final response = await _restAPI.request(method: method, path: path);
-      final data = response.data.data['data'];
+      final data = response.data['data'];
       if (response.statusCode == 200) {
-        final result = BibleModel.fromJson(data);
+        final result =
+            (data as List).map((i) => VersionModel.fromJson(i)).toList();
         return result;
       } else {
         log('Cannot reach path: $path');
@@ -28,16 +30,15 @@ class BibleRepository {
     return null;
   }
 
-  Future<List<BibleModel>?> getAllBibles({
+  Future<VersionModel?> getVersion({
     required RestMethod method,
     required String path,
   }) async {
     try {
       final response = await _restAPI.request(method: method, path: path);
-      final data = response.data['data'];
+      final data = response.data.data['data'];
       if (response.statusCode == 200) {
-        final result =
-            (data as List).map((i) => BibleModel.fromJson(i)).toList();
+        final result = VersionModel.fromJson(data);
         return result;
       } else {
         log('Cannot reach path: $path');

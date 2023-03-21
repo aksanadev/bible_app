@@ -23,7 +23,7 @@ class BibleScreen extends StatelessWidget {
               actions: [
                 IconButton(
                   onPressed: () {
-                    showBibleBottomSheet(context, bibleState);
+                    showBibleBottomSheet(context, bibleState as BibleState);
                   },
                   icon: const Icon(Icons.book),
                 )
