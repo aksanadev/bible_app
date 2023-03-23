@@ -7,7 +7,7 @@ import 'package:bible_app/features/bible/service/api.dart';
 import 'package:bible_app/features/bible/ui/utils/service_locator.dart';
 
 class BibleBloc implements Bloc {
-  final _bibleStreamController = StreamController<BibleState>();
+  final _bibleStreamController = StreamController<BibleState>.broadcast();
 
   //getter
   Stream<BibleState> get bibleStateStream => _bibleStreamController.stream;
@@ -15,10 +15,12 @@ class BibleBloc implements Bloc {
   //vars
   final bibleRepo = ServiceLocator().bibleRepository;
 
+  late BibleState _state;
+
   //initializes when bloc gets injected (upon go_route)
   BibleBloc() {
-    // getBibleVersions();
-    getBibleBooks();
+    getBibleVersions();
+    // getBibleBooks(bibleId: 'de4e12af7f28f599-01');
   }
 
 // BIBLE VERSIONS
@@ -26,8 +28,8 @@ class BibleBloc implements Bloc {
     try {
       final bibleVersions =
           await bibleRepo.getBibleVersions(method: RestMethod.get, path: '');
-      _bibleStreamController.add(BibleState(bibleVersions: bibleVersions)
-          .copyWith(bibleVersions: bibleVersions));
+      _state = BibleState(bibleVersions: bibleVersions);
+      _bibleStreamController.sink.add(_state);
       log('got versions');
     } catch (e) {
       log('Could not get Bible versions\n\n${e.toString()}');
@@ -38,7 +40,7 @@ class BibleBloc implements Bloc {
     try {
       final bibleVersion = await bibleRepo.getBibleVersion(
           method: RestMethod.get, path: '/$bibleId/books');
-      _bibleStreamController
+      _bibleStreamController.sink
           .add(BibleState().copyWith(bibleVersion: bibleVersion));
       log('Bible Version Chose: $bibleId');
     } catch (e) {
@@ -47,12 +49,12 @@ class BibleBloc implements Bloc {
   }
 
 // BIBLE BOOKS
-  Future<void> getBibleBooks({String? bibleId}) async {
+  Future<void> getBibleBooks({required String bibleId}) async {
     try {
       final bibleBooks = await bibleRepo.getBibleBooks(
-          method: RestMethod.get, path: '/de4e12af7f28f599-01/books');
-      _bibleStreamController.add(
-          BibleState(bibleBooks: bibleBooks).copyWith(bibleBooks: bibleBooks));
+          method: RestMethod.get, path: '/$bibleId/books');
+      var temp = _state.copyWith(bibleBooks: bibleBooks);
+      _bibleStreamController.add(temp);
       log('got versions');
     } catch (e) {
       log('Could not get Bible versions\n\n${e.toString()}');

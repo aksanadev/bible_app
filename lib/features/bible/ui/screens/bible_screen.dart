@@ -27,8 +27,10 @@ class BibleScreen extends StatelessWidget {
                   child: Row(
                     children: [
                       ElevatedButton(
-                        onPressed: () {
-                          booksBottomSheet(context, bibleState, bloc);
+                        onPressed: () async {
+                          await bloc.getBibleBooks(
+                              bibleId: 'de4e12af7f28f599-01');
+                          // booksBottomSheet(context, bibleState, bloc);
                         },
                         style: ButtonStyle(
                           shape: MaterialStateProperty.all(
@@ -40,14 +42,14 @@ class BibleScreen extends StatelessWidget {
                           ),
                         ),
                         child: const Text(
-                          '1 John 4',
+                          'Get all books per version.',
                         ),
                       ),
                       const SizedBox(
                         width: 2,
                       ),
                       ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           bibleVersionBottomSheet(context, bibleState, bloc);
                         },
                         style: ButtonStyle(
@@ -60,7 +62,7 @@ class BibleScreen extends StatelessWidget {
                           ),
                         ),
                         child: const Text(
-                          'NKJV',
+                          'Get all bible versions.',
                         ),
                       ),
                     ],

@@ -28,13 +28,14 @@ class BibleState {
     BookModel? bibleBook,
     ChapterModel? chapter,
     VerseModel? verse,
-  }) =>
-      BibleState(
-        bibleVersions: bibleVersions ?? this.bibleVersions,
-        bibleVersion: bibleVersion ?? this.bibleVersion,
-        bibleBooks: bibleBooks ?? this.bibleBooks,
-        bibleBook: bibleBook ?? this.bibleBook,
-        chapter: chapter ?? this.chapter,
-        verse: verse ?? this.verse,
-      );
+  }) {
+    return BibleState(
+      bibleVersions: bibleVersions ?? this.bibleVersions,
+      bibleVersion: bibleVersion ?? this.bibleVersion,
+      bibleBooks: bibleBooks ?? this.bibleBooks,
+      bibleBook: bibleBook ?? this.bibleBook,
+      chapter: chapter ?? this.chapter,
+      verse: verse ?? this.verse,
+    );
+  }
 }
