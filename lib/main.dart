@@ -39,8 +39,20 @@ class BibleApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       routerConfig: _router,
       title: 'Bible App',
+      theme: ThemeData(
+        appBarTheme: const AppBarTheme(color: Colors.black87),
+        primaryColor: Colors.black54,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: TextButton.styleFrom(
+            backgroundColor: const Color.fromARGB(255, 77, 77, 77),
+            textStyle: const TextStyle(
+                color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
     );
   }
 }

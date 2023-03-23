@@ -7,7 +7,7 @@ class VersionModel {
     this.bibleVersion,
   });
 
-  factory VersionModel.formJson(Map<String, dynamic> json) => VersionModel(
+  factory VersionModel.fromJson(Map<String, dynamic> json) => VersionModel(
         bibleId: json['id'],
         bibleVersion: json['name'],
       );
