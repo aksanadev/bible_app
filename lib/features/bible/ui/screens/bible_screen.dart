@@ -18,6 +18,12 @@ class BibleScreen extends StatelessWidget {
         final bibleState = snapshot.data;
         if (snapshot.hasData) {
           if (snapshot.data != null) {
+            if (bibleState?.bibleBooks != null) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                booksBottomSheet(context, bibleState, bloc);
+              });
+            }
+
             return Scaffold(
               appBar: AppBar(
                 // backgroundColor: Colors.blueGrey,
@@ -30,7 +36,6 @@ class BibleScreen extends StatelessWidget {
                         onPressed: () async {
                           await bloc.getBibleBooks(
                               bibleId: 'de4e12af7f28f599-01');
-                          // booksBottomSheet(context, bibleState, bloc);
                         },
                         style: ButtonStyle(
                           shape: MaterialStateProperty.all(

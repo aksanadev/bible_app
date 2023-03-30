@@ -54,7 +54,7 @@ class BibleBloc implements Bloc {
       final bibleBooks = await bibleRepo.getBibleBooks(
           method: RestMethod.get, path: '/$bibleId/books');
       var temp = _state.copyWith(bibleBooks: bibleBooks);
-      _bibleStreamController.add(temp);
+      _bibleStreamController.sink.add(temp);
       log('got versions');
     } catch (e) {
       log('Could not get Bible versions\n\n${e.toString()}');
