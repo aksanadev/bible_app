@@ -5,9 +5,10 @@ import 'package:bible_app/features/bible/bloc/bible_state.dart';
 import 'package:bible_app/features/bible/bloc/bloc.dart';
 import 'package:bible_app/features/bible/service/api.dart';
 import 'package:bible_app/features/bible/ui/utils/service_locator.dart';
+import 'package:bible_app/utils/app/bloc/loading_state.dart';
 
 class BibleBloc implements Bloc {
-  final _bibleStreamController = StreamController<BibleState>();
+  final _bibleStreamController = StreamController<BibleState>.broadcast();
 
   //getter
   Stream<BibleState> get bibleStateStream => _bibleStreamController.stream;
@@ -15,19 +16,32 @@ class BibleBloc implements Bloc {
   //vars
   final bibleRepo = ServiceLocator().bibleRepository;
 
+  late BibleState _bibleState;
+  late LoadingState _loadingState;
+
   //initializes when bloc gets injected (upon go_route)
   BibleBloc() {
-    // getBibleVersions();
-    getBibleBooks();
+    _bibleState = BibleState();
+    _loadingState = LoadingState(isLoading: false);
   }
 
 // BIBLE VERSIONS
   Future<void> getBibleVersions() async {
     try {
+      var loadingState = _loadingState.copywith(isLoading: true);
+      final bibleState = _bibleState.copyWith(
+          loadingState:
+              loadingState); //configuring the BibleState MODEL to add to the stream later
+      _bibleStreamController.sink
+          .add(bibleState); //adding the configured MODEL to update the stream
+
       final bibleVersions =
           await bibleRepo.getBibleVersions(method: RestMethod.get, path: '');
-      _bibleStreamController.add(BibleState(bibleVersions: bibleVersions)
-          .copyWith(bibleVersions: bibleVersions));
+
+      loadingState = _loadingState.copywith(isLoading: false);
+      _bibleState =
+          BibleState(bibleVersions: bibleVersions, loadingState: loadingState);
+      _bibleStreamController.sink.add(_bibleState);
       log('got versions');
     } catch (e) {
       log('Could not get Bible versions\n\n${e.toString()}');
@@ -38,7 +52,7 @@ class BibleBloc implements Bloc {
     try {
       final bibleVersion = await bibleRepo.getBibleVersion(
           method: RestMethod.get, path: '/$bibleId/books');
-      _bibleStreamController
+      _bibleStreamController.sink
           .add(BibleState().copyWith(bibleVersion: bibleVersion));
       log('Bible Version Chose: $bibleId');
     } catch (e) {
@@ -47,15 +61,15 @@ class BibleBloc implements Bloc {
   }
 
 // BIBLE BOOKS
-  Future<void> getBibleBooks({String? bibleId}) async {
+  Future<void> getBibleBooks({required String bibleId}) async {
     try {
       final bibleBooks = await bibleRepo.getBibleBooks(
-          method: RestMethod.get, path: '/de4e12af7f28f599-01/books');
-      _bibleStreamController.add(
-          BibleState(bibleBooks: bibleBooks).copyWith(bibleBooks: bibleBooks));
-      log('got versions');
+          method: RestMethod.get, path: '/$bibleId/books');
+      var books = _bibleState.copyWith(bibleBooks: bibleBooks);
+      _bibleStreamController.sink.add(books);
+      log('got books of the Bible');
     } catch (e) {
-      log('Could not get Bible versions\n\n${e.toString()}');
+      log('Could not get Bible books\n\n${e.toString()}');
     }
   }
 
@@ -64,7 +78,7 @@ class BibleBloc implements Bloc {
       final bibleBook = await bibleRepo.getBibleBook(
           method: RestMethod.get, path: '/$bibleId/books');
       _bibleStreamController.add(BibleState().copyWith(bibleBook: bibleBook));
-      log('Bible Book Chose: $book');
+      log('Chosen book from the Bible: $book');
     } catch (e) {
       log('Could not get this Book:$book\n\n${e.toString()}');
     }
