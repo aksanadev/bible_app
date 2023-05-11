@@ -2,7 +2,8 @@ import 'dart:developer';
 
 import 'package:bible_app/features/bible/models/bible/book_model.dart';
 import 'package:bible_app/features/bible/models/bible/version_model.dart';
-import 'package:bible_app/features/bible/service/api.dart';
+import 'package:bible_app/features/bible/service/rest_api.dart';
+import 'package:dio/dio.dart';
 
 class BibleRepository {
   late final RestAPI _restAPI;

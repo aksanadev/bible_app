@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:bible_app/features/bible/bloc/bible_state.dart';
 import 'package:bible_app/features/bible/bloc/bloc.dart';
-import 'package:bible_app/features/bible/service/api.dart';
+import 'package:bible_app/features/bible/service/rest_api.dart';
 import 'package:bible_app/features/bible/ui/utils/service_locator.dart';
 import 'package:bible_app/utils/app/bloc/loading_state.dart';
 

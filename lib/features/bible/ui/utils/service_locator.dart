@@ -1,5 +1,5 @@
 import 'package:bible_app/features/bible/repository/bible_repository.dart';
-import 'package:bible_app/features/bible/service/api.dart';
+import 'package:bible_app/features/bible/service/rest_api.dart';
 import 'package:bible_app/features/bible/ui/utils/locator.dart';
 
 class ServiceLocator implements Locator {

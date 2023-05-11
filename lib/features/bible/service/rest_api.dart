@@ -4,12 +4,15 @@ import 'package:dio/dio.dart';
 class RestAPI {
   final String baseUrl;
   final String apiKey;
-  final Dio _dio;
+  late final Dio _dio;
 
   RestAPI({
     this.baseUrl = 'https://api.scripture.api.bible/v1/bibles',
     this.apiKey = 'ca215608bd0932213412999f3acbdd87',
-  }) : _dio = Dio();
+    Dio? dio,
+  }) {
+    _dio = dio ?? Dio();
+  }
 
   Future<Response> request({
     required RestMethod method,
